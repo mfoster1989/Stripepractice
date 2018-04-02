@@ -14,11 +14,11 @@ app.use(require("serve-static")(path.join(__dirname, "public")))
 
 app.get("/", (request, response) => {
     response.redirect("/bill")
-});
+})
 
 app.get("/bill", (request, response) => {
     response.render("bill")
-});
+})
 
 app.post("/charge", (request, response) => {
     charge(
@@ -26,11 +26,11 @@ app.post("/charge", (request, response) => {
         request.body.service,
         request.body.stripeToken
     ).then(charge => {
-        response.render("success", { amount: charge.amount / 100 });
+        response.render("success", { amount: charge.amount / 100 })
     }).catch(error => {
-        response.render("error", error);
-    });
-});
+        response.render("error", error)
+    })
+})
 
 function charge(amount, service, token) {
     return new Promise((resolve, reject) => {
@@ -41,12 +41,12 @@ function charge(amount, service, token) {
             source: token
         }, (error, charge) => {
             if (error) {
-                reject(error);
+                reject(error)
             } else {
-                resolve(charge);
+                resolve(charge)
             }
-        });
-    });
+        })
+    })
 }
 
 app.listen(process.env.PORT || 3000)
